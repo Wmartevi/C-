@@ -1,0 +1,38 @@
+using System;
+
+namespace c_sharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //tipo anulavel
+            int? i = 10;
+
+            Test t = new Test();
+            t.X = 10;
+
+            i = null;
+            Console.WriteLine(i.GetValueOrDefault(1));
+
+            if (i == null)
+            {
+                Console.WriteLine("Nulo");
+            }
+
+            t = null;
+
+            Test t2 = t;
+            t2 = new Test();
+            t2.X = 20;
+
+            Console.WriteLine(t2.X);
+             
+        }
+    }
+    class Test
+    {
+        public int X;
+
+    }
+}

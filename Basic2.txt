@@ -1,0 +1,32 @@
+using System;
+
+namespace c_sharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+           string[] names = { "Maria","João"};
+           //testando array
+           Console.WriteLine($"Nomes: {names[0]} e {names[1]}!");
+           Console.WriteLine("************* For *************"); 
+           for (int i = 0; i < names.Length; i++)
+           {
+               
+               if (string.Equals(names[i], "JOÃO", StringComparison.OrdinalIgnoreCase))
+               {
+                   Console.WriteLine(names[i]);
+               }
+               
+           }
+           Console.WriteLine("********** Foreach *************"); 
+           foreach (var name in names)
+           {
+               if (string.Equals(name, "MARIA", StringComparison.OrdinalIgnoreCase))
+               {               
+                    Console.WriteLine(name);
+               }
+           }
+        }
+    }
+}

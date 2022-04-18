@@ -1,0 +1,36 @@
+using System;
+
+namespace c_sharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string s = "Fredi";
+            //s = null;
+
+            int[] numbers = {1}; 
+
+            try
+            {
+                Console.WriteLine(s.Length);
+                Console.WriteLine(numbers[1]);
+            }
+            catch (System.NullReferenceException e)
+            {
+                
+                Console.WriteLine($"Erro de referencia nula. {e.Message}");
+            }
+            catch (System.IndexOutOfRangeException e)
+            {
+                Console.WriteLine($"Erro Array. {e.Message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Erro : {e.StackTrace}");
+            }
+             
+        }
+    }
+
+}

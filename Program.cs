@@ -6,14 +6,36 @@ namespace c_sharp
     {
         static void Main(string[] args)
         {
-           string[] names = { "Maria","João"};
-           Console.WriteLine($"Nomes: {names[0]} e {names[1]}!");
-
-           for (int i = 0; i < 2; i++)
-           {
-               Console.WriteLine(names[i]);
-               
-           }
+            BankAccount account1 = new BankAccount("Carlos", 100);
+            BankAccount account2 = new BankAccount("Julia", 250);
+            
         }
     }
+    class BankAccount
+    {
+        private string name;
+        private decimal balance;
+
+        public BankAccount(string name, decimal balance)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException ("Nome inválido", nameof(name));
+            }
+
+            if (balance < 0)
+            {
+                throw new Exception("Saldo não pode ser negativo.");
+            }
+
+            this.name = name;
+            this.balance = balance;
+        }
+
+        public void Deposit (decimal amount)
+        {
+            balance += amount;
+        }
+    }
+
 }

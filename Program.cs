@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace c_sharp
 {
@@ -6,17 +7,52 @@ namespace c_sharp
     {
         static void Main(string[] args)
         {
-            BankAccount account1 = new BankAccount("Carlos", 100);
-            BankAccount account2 = new BankAccount("Julia", 250);
+            //ILogger logger = new FileLogger();
+            ILogger logger = new ConsoleLogger();
+            BankAccount account1 = new BankAccount("Carlos", 100, logger);
+            BankAccount account2 = new BankAccount("Julia", 250, logger);
+
+            account1.Deposit(0);
+            account2.Deposit(100);
+
+            Console.WriteLine(account2.Balance);
+
+            
             
         }
     }
+
+    class FileLogger : ILogger
+    {
+        public void log(string message)
+        {
+            File.AppendAllText("log.txt", $"{message}{Environment.NewLine}");
+        }
+    }
+
+    class ConsoleLogger : ILogger
+    {
+    }
+
+    interface ILogger
+    {
+        void log(string message)
+        {
+            Console.WriteLine($"LOGGER: {message}");
+        }
+    }
+
     class BankAccount
     {
         private string name;
-        private decimal balance;
+        private readonly ILogger logger;
 
-        public BankAccount(string name, decimal balance)
+        public decimal Balance 
+        { 
+            get; private set;
+        }
+
+        public BankAccount(string name, decimal balance, ILogger logger)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -29,13 +65,23 @@ namespace c_sharp
             }
 
             this.name = name;
-            this.balance = balance;
+            Balance = balance;
+            this.logger = logger;
         }
 
         public void Deposit (decimal amount)
         {
-            balance += amount;
+            if (amount <= 0)
+            {
+                logger.log($"Não é possível depositar {amount} na conta de {name}");
+            }
+            Balance += amount;
         }
+
+       /* public decimal GetBalance()
+        {
+            return balance;
+        }*/
     }
 
 }

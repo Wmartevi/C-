@@ -1,21 +1,42 @@
-﻿using System;
+using System;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace c_sharp
 {
     class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
-            var calculate = new Calculate(Sum);
-            var result  = calculate(10,20);
-            Console.WriteLine(result);
+            ILogger logger = new FileLogger("log2.txt");
+            //ILogger logger = new ConsoleLogger();
+            BankAccount account1 = new BankAccount("Carlos", 100, logger);
+            BankAccount account2 = new BankAccount("Julia", 250, logger);
+
+            account1.Deposit(50);
+            account2.Deposit(100);
+
+            List<BankAccount> accounts = new List<BankAccount>
+            {
+                account1,
+                account2
+            };
+
+            foreach (BankAccount account in accounts)
+            {
+                Console.WriteLine(account.Balance);
+            }   
+
+            Datastore<int> store = new Datastore<int>();
+            Console.WriteLine(store.Value);
+            
         }
     }
 
-    delegate int Calculate (int x, int y);
+    class Datastore<T>
+    {
+        public T Value{get; set;}
+    }
 
     class FileLogger : ILogger
     {

@@ -1,0 +1,108 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+
+namespace c_sharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ILogger logger = new FileLogger("log2.txt");
+            //ILogger logger = new ConsoleLogger();
+            BankAccount account1 = new BankAccount("Carlos", 100, logger);
+            BankAccount account2 = new BankAccount("Julia", 250, logger);
+
+            account1.Deposit(50);
+            account2.Deposit(100);
+
+            List<BankAccount> accounts = new List<BankAccount>
+            {
+                account1,
+                account2
+            };
+
+            foreach (BankAccount account in accounts)
+            {
+                Console.WriteLine(account.Balance);
+            }   
+
+            Datastore<int> store = new Datastore<int>();
+            Console.WriteLine(store.Value);
+            
+        }
+    }
+
+    class Datastore<T>
+    {
+        public T Value{get; set;}
+    }
+
+    class FileLogger : ILogger
+    {
+        private readonly string filePath;
+        public FileLogger(string filePath)
+        {
+            this.filePath = filePath;
+        }
+        public void log(string message)
+        {
+            File.AppendAllText(filePath, $"{message}{Environment.NewLine}");
+        }
+    }
+
+    class ConsoleLogger : ILogger
+    {
+    }
+
+    interface ILogger
+    {
+        void log(string message)
+        {
+            Console.WriteLine($"LOGGER: {message}");
+        }
+    }
+
+    class BankAccount
+    {
+        private string name;
+        private readonly ILogger logger;
+
+        public decimal Balance 
+        { 
+            get; private set;
+        }
+
+        public BankAccount(string name, decimal balance, ILogger logger)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException ("Nome inválido", nameof(name));
+            }
+
+            if (balance < 0)
+            {
+                throw new Exception("Saldo não pode ser negativo.");
+            }
+
+            this.name = name;
+            Balance = balance;
+            this.logger = logger;
+        }
+
+        public void Deposit (decimal amount)
+        {
+            if (amount <= 0)
+            {
+                logger.log($"Não é possível depositar {amount} na conta de {name}");
+            }
+            Balance += amount;
+        }
+
+       /* public decimal GetBalance()
+        {
+            return balance;
+        }*/
+    }
+
+}

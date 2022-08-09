@@ -1,0 +1,42 @@
+using System;
+
+namespace c_sharp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string name = "Fredi";
+            int i = 10;
+            long l = 102366554;
+            
+            Console.WriteLine(name.Length);
+            Console.WriteLine(name.StartsWith('F'));
+            Console.WriteLine(name.EndsWith("i"));
+            Console.WriteLine(name.Contains("d"));
+            Console.WriteLine(name.IndexOf("ed"));
+            Console.WriteLine(string.IsNullOrWhiteSpace(name));
+            Console.WriteLine(string.IsNullOrEmpty(name));
+            Console.WriteLine(string.Join(' ', "Seu nome é:", name));
+            Console.WriteLine("Fredi".Length);
+
+            if(int.TryParse("42", out int x))
+            {
+                Console.WriteLine("Sucesso!!");
+            }else{
+                Console.WriteLine("Erro!!");
+            }
+            Console.WriteLine(x);
+            Console.WriteLine(i);
+
+            //Conversão implicita
+            //l = i;
+            //i = l; Não permite conversão implicita
+            //Conversão explicita
+            i = (int)l;
+            Console.WriteLine(i);
+            
+        }
+    }
+
+}
